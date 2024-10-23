@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import Any, BinaryIO, Dict, List, NamedTuple, Optional, Tuple, Union
+from typing import Any, BinaryIO, NamedTuple, Optional, Union
 
 import tomli
 from pydantic import BaseModel, Field, PositiveInt, field_validator
@@ -41,7 +41,7 @@ class ConfigTopicSubscriber(BaseModel):
 
 
 class ConfigTopic(BaseModel):
-    subscribers: List[ConfigTopicSubscriber] = Field(default_factory=list)
+    subscribers: list[ConfigTopicSubscriber] = Field(default_factory=list)
 
 
 class ConfigQueueRedrivePolicy(BaseModel):
@@ -60,11 +60,11 @@ class NameHandlerTuple(NamedTuple):
 
 class ConfigLambda(BaseModel):
     handler: NameHandlerTuple
-    environment: Dict[str, str] = Field(default_factory=dict)
+    environment: dict[str, str] = Field(default_factory=dict)
 
     @field_validator('handler', mode='before')
     @classmethod
-    def _split_handler(cls, v: Any) -> Tuple[str, str]:
+    def _split_handler(cls, v: Any) -> tuple[str, str]:
         if not isinstance(v, str):
             raise ValueError('should be a str')
         if '.' not in v:
@@ -82,11 +82,11 @@ class ConfigEventSourceMapping(BaseModel):
 
 class Config(BaseModel):
     aws: ConfigAWS = Field(default_factory=ConfigAWS)
-    secrets: Dict[str, Union[ConfigSecretString, ConfigSecretBinary]] = Field(default_factory=dict)
-    topics: Dict[str, ConfigTopic] = Field(default_factory=dict)
-    queues: Dict[str, ConfigQueue]
-    lambdas: Dict[str, ConfigLambda]
-    event_source_mapping: Dict[str, ConfigEventSourceMapping]
+    secrets: dict[str, Union[ConfigSecretString, ConfigSecretBinary]] = Field(default_factory=dict)
+    topics: dict[str, ConfigTopic] = Field(default_factory=dict)
+    queues: dict[str, ConfigQueue]
+    lambdas: dict[str, ConfigLambda]
+    event_source_mapping: dict[str, ConfigEventSourceMapping]
 
     @classmethod
     def from_toml(cls, fp: BinaryIO, /) -> 'Config':

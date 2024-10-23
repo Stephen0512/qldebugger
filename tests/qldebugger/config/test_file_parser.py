@@ -1,6 +1,6 @@
 from io import BytesIO
 from random import randint
-from typing import Any, ClassVar, Dict
+from typing import Any, ClassVar
 from unittest.mock import Mock, patch
 
 import pytest
@@ -104,7 +104,7 @@ class TestNameHandlerTuple:
 
 
 class TestConfigLambda:
-    DEFAULT_ARGS: ClassVar[Dict[str, Any]] = {
+    DEFAULT_ARGS: ClassVar[dict[str, Any]] = {
         'handler': f'{randstr()}.{randstr()}',
     }
 

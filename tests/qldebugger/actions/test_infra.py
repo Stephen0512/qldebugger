@@ -1,7 +1,6 @@
 import json
 from collections import OrderedDict
 from random import randint
-from typing import Dict
 from unittest.mock import Mock, call, patch
 
 from botocore.exceptions import ClientError
@@ -249,7 +248,7 @@ class TestCreateQueues:
         max_receive_count = randint(1, 10)
         host = randstr()
 
-        def get_queue_url(*, QueueName: str) -> Dict[str, str]:  # noqa: N803
+        def get_queue_url(*, QueueName: str) -> dict[str, str]:  # noqa: N803
             if QueueName != queue_name:
                 raise ClientError({}, '')
             return {'QueueUrl': f'http://{host}/{QueueName}'}
