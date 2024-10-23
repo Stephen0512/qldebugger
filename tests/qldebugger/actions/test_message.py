@@ -1,5 +1,6 @@
+from collections.abc import Mapping
 from random import randint
-from typing import TYPE_CHECKING, Any, Mapping, cast
+from typing import TYPE_CHECKING, Any, cast
 from unittest.mock import Mock, patch
 
 import pytest

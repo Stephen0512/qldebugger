@@ -1,9 +1,9 @@
 import json
 import logging
-from typing import TYPE_CHECKING, Dict
+from graphlib import TopologicalSorter
+from typing import TYPE_CHECKING
 
 from botocore.exceptions import ClientError
-from graphlib import TopologicalSorter
 
 from qldebugger.aws import get_account_id, get_client
 from qldebugger.config import get_config
@@ -57,7 +57,7 @@ def create_queues() -> None:
     ).static_order()
 
     for queue_name in order:
-        attributes: Dict['QueueAttributeNameType', str] = {}
+        attributes: dict['QueueAttributeNameType', str] = {}
         if redrive_policy := queues.get(queue_name, ConfigQueue()).redrive_policy:
             logger.debug('Checking dead letter queue (%r) for %r...', redrive_policy.dead_letter_queue, queue_name)
             dead_letter_queue_attributes = sqs.get_queue_attributes(
